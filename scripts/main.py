@@ -4,7 +4,7 @@ from rename_files import renomear_subpastas
 from rename_imgs import organize_and_move_images
 from split_dataset import split_dataset
 from count_imgs import count_imgs
-from data_augmentation import augment_dataset
+from data_augmentation_v2 import augment_dataset
 from remove_imgs_backgroud import  clean_dataset
 
 
@@ -62,13 +62,20 @@ def menu():
     
     elif option == 6:
         print()
-        input_path = input("Digite o caminho do dataset original: ")
-        output_path = input("Digite o caminho para salvar o dataset aumentado: ")
-        selected_operations = input("Digite as operações desejadas separadas por vírgula (flip, rotate_90, crop, rotation, shear): ").split(",")
-        augmentation_factor = int(input("Digite o fator de multiplicidade: "))
-        augment_dataset(input_path, output_path, selected_operations, augmentation_factor)
 
-    
+        input_directory = input("Digite o caminho do diretório de entrada (ex: ./matrix): ").strip()
+        operations_to_apply = input("Digite as operações desejadas separadas por vírgula (flip, rotate_90, crop, rotation, shear): ").split(",")
+        if operations_to_apply is None or operations_to_apply == "":
+            operations_to_apply = ["flip", "flip_v", "rotate_90", "crop", "rotation", "shear"]
+
+        augmentation_factor = int(input("Digite o fator de multiplicidade: "))
+
+        augment_dataset(
+            input_dir=input_directory,
+            operations=operations_to_apply,
+            factor=augmentation_factor
+        )
+
     elif option == 7:
         print()
         print("Goodbye!")

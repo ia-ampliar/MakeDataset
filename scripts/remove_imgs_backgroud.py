@@ -6,6 +6,34 @@ import cv2 as cv
 import multiprocessing
 import numpy as np
 
+def clean_dataset(dataset_path, output_path):
+    """
+    Remove ou move imagens com fundo branco, azul ou cinza do dataset.
+
+    Args:
+        dataset_path (str): Caminho para o dataset.
+        output_path (str): Caminho para salvar imagens removidas.
+    """
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+
+    for root, dirs, files in os.walk(dataset_path):
+        for file in files:
+            if file.endswith(('.jpg', '.jpeg', '.png')):
+                image_path = os.path.join(root, file)
+                if is_blank_or_colored_image(image_path):
+                    # Cria a mesma estrutura de pastas no destino
+                    relative_path = os.path.relpath(root, dataset_path)
+                    target_dir = os.path.join(output_path, relative_path)
+                    if not os.path.exists(target_dir):
+                        os.makedirs(target_dir)
+
+                    # Move a imagem
+                    shutil.move(image_path, os.path.join(target_dir, file))
+                    print(f"Imagem movida: {image_path}")
+
+
+
 def create_new_folder(_patient_path, ori_str, replace_str):
     _new_patient_path = re.sub(ori_str, replace_str, _patient_path)
     Path(_new_patient_path).mkdir(parents=True, exist_ok=True)

@@ -1,11 +1,11 @@
 import sys
 from tqdm import tqdm
-from rename_files import renomear_subpastas
-from rename_imgs import organize_and_move_images
-from split_dataset import split_dataset
-from count_imgs import count_imgs
-from data_augmentation_v2 import augment_dataset
-from remove_imgs_backgroud import  clean_dataset
+from scripts.rename_files import renomear_subpastas
+from scripts.rename_imgs import organize_and_move_images
+from scripts.split_dataset import split_dataset
+from scripts.count_imgs import count_imgs
+from scripts.data_augmentation_v2 import augment_dataset
+from scripts.remove_imgs_backgroud import  clean_dataset
 
 
 
@@ -62,18 +62,13 @@ def menu():
     
     elif option == 6:
         print()
-
+        print("Data Augmentation")
         input_directory = input("Digite o caminho do diretório de entrada (ex: ./matrix): ").strip()
-        operations_to_apply = input("Digite as operações desejadas separadas por vírgula (flip, rotate_90, crop, rotation, shear): ").split(",")
-        if operations_to_apply is None or operations_to_apply == "":
-            operations_to_apply = ["flip", "flip_v", "rotate_90", "crop", "rotation", "shear"]
-
-        augmentation_factor = int(input("Digite o fator de multiplicidade: "))
-
+        operations_to_apply = ["flip", "flip_v", "rotate_90", "crop", "rotation", "shear"]
         augment_dataset(
             input_dir=input_directory,
             operations=operations_to_apply,
-            factor=augmentation_factor
+            factor=2
         )
 
     elif option == 7:
